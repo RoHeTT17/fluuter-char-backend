@@ -40,6 +40,7 @@ const publicPath = path.resolve(__dirname, 'public');
 //Segundo parámetro es al path (interno) que  va responder
 //Ejemplo de como se uso en postman localhost:3001/api/login/new
 app.use('/api/login', require('./routes/auth'));
+app.use('/api/usuarios', require('./routes/usuarios'));
 
 //Cuando se haga una petición que muestre el publicpath
 app.use(express.static(publicPath));

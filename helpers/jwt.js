@@ -28,9 +28,29 @@ const generarJWT = (uid) =>{
         });
     
     });
-
 };
 
+
+//El token se inicializa como uns string vacio para que siempre se interprete como string
+const comprobarJWT = (token = '') =>{
+
+    try {
+
+        //Extraer el uid que viene en el header del token (recordar que un jwt esta formado por 3 partes)
+        //Se verifica el token que extrajimos del header contra la llave secreta
+        const {uid} = jwt.verify(token,process.env.JWT_key);
+        
+        return [true, uid];
+
+    } catch (error) {
+
+        return [false,null];
+        
+    }
+
+}
+
 module.exports = {
-    generarJWT
+    generarJWT,
+    comprobarJWT
 }
