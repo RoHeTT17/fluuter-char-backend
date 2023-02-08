@@ -22,7 +22,7 @@ const getUsuarios = async (req, res = response) =>{
         .find({_id: {$ne: req.uid}})//Quitar al usuario que este logueado (para que no aparezca el mismo)
         .sort('-online')//Los que estan conectados aparezcan primero
         .skip(desde)
-        .limit(2)//Limita a 2 la cantidad de registro que regresa la consulta
+        //.limit(2)//Limita a 2 la cantidad de registro que regresa la consulta
 
     return res.status(200).json({
         ok: true,

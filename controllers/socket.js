@@ -1,6 +1,10 @@
 //Importar el modelo de usario
 const Usuario = require('../models/usuario');
 
+//Importar el modelo de mensaje
+const Mensaje = require('../models/mensaje');
+
+
 //recibir el uid.
 //async porque es recomendable por la interacción con la base de datos
 const usuarioConectado = async (uid = '') =>{
@@ -28,7 +32,34 @@ const usuarioDesconectado = async (uid = '') =>{
     return usuario;
 }
 
+const grabarMesnaje = async(payload)=>{
+
+    /*
+        el payload debe tener la siguiente estructura
+        payload: {
+              de: '',
+              para: '',
+              mensaje: '',   
+        }
+     */
+
+        try {
+            
+            //Crear instnacia del modelo
+            const mensaje =  new Mensaje(payload);
+
+            //Grabar en la base de datos
+            await mensaje.save();
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+
+}
+
 module.exports = {
     usuarioConectado,
-    usuarioDesconectado
+    usuarioDesconectado,
+    grabarMesnaje
 }

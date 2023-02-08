@@ -3,7 +3,7 @@
 //importar el io
 const {io} = require('../index')
 const { comprobarJWT } = require('../helpers/jwt');
-const { usuarioConectado, usuarioDesconectado} = require('../controllers/socket');
+const { usuarioConectado, usuarioDesconectado, grabarMesnaje} = require('../controllers/socket');
 
 //client es un dispositivo que se conecto al socket server
 io.on('connection', client => {
@@ -33,8 +33,17 @@ io.on('connection', client => {
     //client.to(uid).emit('name_event');    
 
     //Escuchar del cliente el mensaje-personal
-    client.on('mensaje-personal', (payload) =>{
-        console.log(payload);
+    client.on('mensaje-personal', async (payload) =>{
+        //console.log(payload);
+
+        //Grabar mensaje en la base de datos
+        await grabarMesnaje(payload);
+
+        //Mandar el mensaje al cliente 
+        //payload.para esta definido del lado de flutter, aquí lo inferimos y
+        //contiene el uid del usuario al que le vamos a mandar mensaje.
+        //Emitir al cliente un mensaje también llamado 'mensaje-personal' 
+        io.to(payload.para).emit('mensaje-personal',payload);
 
     });
 
